@@ -1,0 +1,9 @@
+2026/03/19-16:34:12.276 1fc0 Reusing MANIFEST C:\dev\sr_cobro\chrome_profile\Default\Local Storage\leveldb/MANIFEST-000001
+2026/03/19-16:34:12.292 1fc0 Recovering log #4
+2026/03/19-16:34:12.298 1fc0 Reusing old log C:\dev\sr_cobro\chrome_profile\Default\Local Storage\leveldb/000004.log 
+2026/03/19-17:33:15.941 288c Level-0 table #8: started
+2026/03/19-17:33:15.961 288c Level-0 table #8: 15470 bytes OK
+2026/03/19-17:33:15.967 288c Delete type=0 #4
+2026/03/20-08:52:46.370 288c Level-0 table #10: started
+2026/03/20-08:52:46.386 288c Level-0 table #10: 17939 bytes OK
+2026/03/20-08:52:46.393 288c Delete type=0 #7
