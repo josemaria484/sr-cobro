@@ -1,12 +1,14 @@
 ﻿from flask import Flask, request
 import requests
+import os
+import json
+from app import procesar
 
 app = Flask(__name__)
 
 VERIFY_TOKEN = "123456"
-
-ACCESS_TOKEN = "EAAUhwwsAtrYBRfXQCIjOmLDmS9zsi9e3aQTYokZCWjeTFZCWWXi6Dw3fUKw4xjAKUrsNswCpuQnjymgFZC56pw0bVfVcCU9G42x7zK2SZBdCn9ql6clGu9fRrZCPdyoOZB2WD4lchuLiN8FNqWcVaEC1MEfLU5WiuMB3obGl0y1FQ95P5kHdMTDL7QHf9SmjAAERm619FGtKZC22y5QHZAZBlc5NqyW4zzFZCkZCy62hvlih7hKZBekZCaNXEoWQf9n8ueNDbIEtetZAZAoznkuzDZBbNfwZD"
-PHONE_NUMBER_ID = "991030984102226"
+ACCESS_TOKEN = os.getenv("WA_TOKEN")
+PHONE_NUMBER_ID = "1047050545162823"
 
 def enviar_whatsapp(to, text):
     url = f"https://graph.facebook.com/v25.0/{PHONE_NUMBER_ID}/messages"
@@ -20,6 +22,7 @@ def enviar_whatsapp(to, text):
         "type": "text",
         "text": {"body": text}
     }
+
     r = requests.post(url, headers=headers, json=payload)
     print("RESPUESTA META:", r.status_code, r.text)
 
@@ -30,31 +33,28 @@ def webhook():
         token = request.args.get("hub.verify_token")
         challenge = request.args.get("hub.challenge")
 
-        print("DEBUG:", mode, token, challenge)
-
         if mode == "subscribe" and token == VERIFY_TOKEN:
             return challenge, 200
         return "ERROR", 403
 
-    if request.method == "POST":
-        data = request.json
-        print("Mensaje recibido:", data)
+    data = request.json
+    print("DATA:", json.dumps(data, indent=2))
 
-        try:
-            value = data["entry"][0]["changes"][0]["value"]
-            if "messages" in value:
-                msg = value["messages"][0]
-                sender = msg["from"]
-                text = msg.get("text", {}).get("body", "").lower().strip()
+    try:
+        value = data["entry"][0]["changes"][0]["value"]
 
-                if text == "hola":
-                    enviar_whatsapp(sender, "Hola, soy Sr Cobro. Bot conectado correctamente.")
-                else:
-                    enviar_whatsapp(sender, "Mensaje recibido por Sr Cobro.")
-        except Exception as e:
-            print("ERROR PROCESANDO:", e)
+        if "messages" in value:
+            msg = value["messages"][0]
+            sender = msg["from"]
+            texto = msg["text"]["body"]
 
-        return "OK", 200
+            respuesta = procesar(texto)
+            enviar_whatsapp(sender, respuesta)
+
+    except Exception as e:
+        print("ERROR:", e)
+
+    return "OK", 200
 
 @app.route("/status")
 def status():
