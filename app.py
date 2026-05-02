@@ -1,7 +1,7 @@
 ﻿def procesar(texto):
     texto = texto.lower().strip()
 
-    precio = ".000 contado"
+    precio = "170.000"
     modelo = "respaldo modelo Canelón"
 
     saludo = any(p in texto for p in ["hola", "buenas", "buen día", "buen dia", "buenas tardes", "buenas noches"])
@@ -42,20 +42,20 @@
     if consulta_medida:
         return (
             "Perfecto, para 2 plazas queda muy bien 👍\n\n"
-            f"El {modelo} está en {precio} y es uno de los más elegidos por la firmeza y la terminación.\n\n"
+            f"El {modelo} está en ${precio} contado y es uno de los más elegidos por la firmeza y la terminación.\n\n"
             "¿Querés que te pase colores o preferís que te explique cómo reservarlo?"
         )
 
     if saludo or consulta_precio:
         return (
             "Hola 😊\n\n"
-            f"El {modelo} está en {precio}.\n"
+            f"El {modelo} está en ${precio} contado.\n"
             "Es un modelo muy pedido porque queda firme, prolijo y viste muchísimo la habitación.\n\n"
             "¿Lo buscás para 2 plazas o querés ver colores primero?"
         )
 
     return (
         "Hola 😊\n\n"
-        f"Tenemos el {modelo} en varios colores, con muy buena terminación y a {precio}.\n\n"
+        f"Tenemos el {modelo} en varios colores, con muy buena terminación y a ${precio} contado.\n\n"
         "Si querés, te ayudo a elegir rápido según la medida o te explico cómo reservarlo."
     )
